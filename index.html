@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lqr.ma | Menus Digitaux QR & NFC Premium</title>
+    <meta name="description"
+        content="Menus numériques QR code et NFC pour restaurants et cafés au Maroc. Design Glassmorphism. Sans abonnement.">
+    <style>
+        /* 
+           PERFORMANCE OPTIMIZATION:
+           - System Fonts (0ms load time)
+           - No external CSS/JS requests
+           - CSS Variables for efficient theming
+           - Hardware acceleration for glass effects
+        */
+        :root {
+            --bg-color: #050505;
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --accent: #3b82f6;
+            /* Blue-500 optimized for dark */
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: 10px;
+            --container: 1000px;
+            --spacing: 2rem;
+            --section-padding: 8rem;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        /* Utilities */
+        .container {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 var(--spacing);
+            width: 100%;
+        }
+
+        .flex-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Glassmorphism Card Style */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Button */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.5rem;
+            border-radius: 100px;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid transparent;
+            font-size: 1.1rem;
+        }
+
+        .btn-primary {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-primary:hover {
+            background: rgba(59, 130, 246, 0.2);
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Header */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            padding: 2rem 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            padding-top: 8rem;
+            padding-bottom: 6rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            /* Responsive font size */
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            font-weight: 400;
+        }
+
+        /* Mockup in Hero */
+        .mockup-container {
+            margin-top: 5rem;
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: -2rem;
+        }
+
+        .mockup {
+            width: 300px;
+            height: 600px;
+            border-radius: 40px;
+            border: 8px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            transform: rotateX(10deg) rotateY(-10deg) rotateZ(5deg);
+            background: #000;
+            box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            transition: transform 0.5s ease;
+        }
+
+        .mockup:hover {
+            transform: rotateX(0) rotateY(0) rotateZ(0);
+        }
+
+        .mockup-screen {
+            height: 100%;
+            background: linear-gradient(180deg, #111 0%, #050505 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+
+        .mockup-visual-qr {
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            padding: 4px;
+            margin-bottom: 10px;
+        }
+
+        .mockup-qr-dot {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 2px;
+        }
+
+        .mockup-visual-nfc {
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(59, 130, 246, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .mockup-nfc-wave {
+            position: absolute;
+            border: 2px solid rgba(59, 130, 246, 0.6);
+            border-radius: 50%;
+            opacity: 0;
+            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes ping {
+
+            75%,
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+        }
+
+        .divider-line {
+            width: 50%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .divider-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #0d0d0d;
+            padding: 0 10px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sections */
+        section {
+            padding: var(--section-padding) 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+        }
+
+        /* How It Works Grid */
+        .steps {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .step-card {
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-num {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        /* Benefits Grid */
+        .benefits {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .benefit-card {
+            padding: 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        /* Pricing */
+        .pricing-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            padding: 3rem 2rem;
+            text-align: center;
+            flex: 1;
+            min-width: 300px;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            background: rgba(59, 130, 246, 0.08);
+            /* Slight blue tint */
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.1);
+        }
+
+        .price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 1.5rem 0;
+            line-height: 1;
+        }
+
+        .price span {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .features-list {
+            margin: 2rem 0;
+            text-align: left;
+            list-style: none;
+        }
+
+        .features-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+        }
+
+        .features-list li::before {
+            content: "•";
+            color: var(--accent);
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            :root {
+                --spacing: 1.5rem;
+                --section-padding: 5rem;
+            }
+
+            .hero {
+                padding-top: 7rem;
+                padding-bottom: 3rem;
+            }
+
+            .hero h1 {
+                font-size: 2.75rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .section-title {
+                margin-bottom: 3rem;
+            }
+
+            .mockup-container {
+                margin-top: 3rem;
+            }
+
+            .pricing-container {
+                gap: 1.5rem;
+            }
+
+            .pricing-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            /* Simplified for mobile */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Lqr<span>.ma</span></a>
+                <a href="#pricing" class="btn btn-primary"
+                    style="padding: 0.8rem 1.5rem; font-size: 0.9rem;">Commencer</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="container">
+            <h1 class="text-gradient reveal">Le Menu Digital<br>Nouvelle Génération</h1>
+            <p class="reveal">Offrez une expérience premium à vos clients. <br> Technologie <strong>QR Code &
+                    NFC</strong> intégrée.
+            </p>
+            <div class="reveal">
+                <a href="#how" class="btn btn-primary">Découvrir</a>
+            </div>
+
+            <div class="mockup-container">
+                <div class="mockup">
+                    <div class="mockup-screen">
+                        <!-- QR Section -->
+                        <div style="text-align: center;">
+                            <div class="mockup-visual-qr">
+                                <div class="mockup-qr-dot" style="grid-column: span 2; grid-row: span 2;"></div>
+                                <div class="mockup-qr-dot"></div>
+                                <div class="mockup-qr-dot"></div>
+                                <div class="mockup-qr-dot"></div>
+                                <div class="mockup-qr-dot"></div>
+                            </div>
+                            <div style="font-weight: bold; margin-bottom: 5px;">Scan QR</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">Caméra</div>
+                        </div>
+
+                        <div class="divider-line">
+                            <span class="divider-text">OU</span>
+                        </div>
+
+                        <!-- NFC Section -->
+                        <div style="text-align: center;">
+                            <div class="mockup-visual-nfc">
+                                <div class="mockup-nfc-wave"></div>
+                                <div class="mockup-nfc-wave" style="animation-delay: 0.5s;"></div>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b82f6"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4.5 9.5V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-4.5"></path>
+                                    <path d="M11 11a7 7 0 0 1 7 7"></path>
+                                </svg>
+                            </div>
+                            <div style="font-weight: bold; color: #3b82f6; margin-bottom: 5px;">Tap NFC</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">Sans Contact</div>
+                        </div>
+
+                        <div
+                            style="margin-top: 40px; font-size: 0.9rem; color: white; background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px;">
+                            Menu Digital
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How it Works -->
+    <section id="how">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Comment ça marche ?</h2>
+                <p>Digitalisation instantanée en 3 étapes.</p>
+            </div>
+            <div class="grid steps">
+                <div class="glass step-card reveal">
+                    <div class="step-num">01</div>
+                    <h3>Scan ou Tap</h3>
+                    <p style="color:var(--text-muted)">Le client scanne le QR code ou approche son téléphone (NFC).</p>
+                </div>
+                <div class="glass step-card reveal" style="transition-delay: 0.1s;">
+                    <div class="step-num">02</div>
+                    <h3>View</h3>
+                    <p style="color:var(--text-muted)">Le menu s'affiche instantanément, sans app.</p>
+                </div>
+                <div class="glass step-card reveal" style="transition-delay: 0.2s;">
+                    <div class="step-num">03</div>
+                    <h3>Order</h3>
+                    <p style="color:var(--text-muted)">Choix rapide et fluide des plats.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section>
+        <div class="container">
+            <div class="section-title">
+                <h2>Pourquoi Lqr.ma ?</h2>
+            </div>
+            <div class="grid benefits">
+                <!-- NFC Feature -->
+                <div class="glass benefit-card reveal">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4.5 9.5V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-4.5"></path>
+                        <path d="M2 15a4 4 0 0 1 4-4h2"></path>
+                        <path d="M2.8 20a3.6 3.6 0 0 1 2.8-5h1"></path>
+                        <path d="M11 11a7 7 0 0 1 7 7"></path>
+                        <path d="M11 15a3 3 0 0 1 3 3"></path>
+                    </svg>
+                    <div>
+                        <h3>NFC "Touch"</h3>
+                        <p style="color:var(--text-muted); margin-top:0.5rem">Posez le téléphone sur la table. Le menu
+                            s'ouvre magiquement.</p>
+                    </div>
+                </div>
+
+                <!-- QR Feature -->
+                <div class="glass benefit-card reveal" style="transition-delay: 0.1s;">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="8" height="8" />
+                        <path d="M6 6h.01" />
+                        <rect x="14" y="2" width="8" height="8" />
+                        <path d="M18 6h.01" />
+                        <rect x="2" y="14" width="8" height="8" />
+                        <path d="M6 18h.01" />
+                        <path d="M14 14h.01" />
+                        <path d="M18 18h.01" />
+                        <path d="M18 22h4v-4" />
+                        <path d="M14 18v4" />
+                        <path d="M22 14h-4" />
+                    </svg>
+                    <div>
+                        <h3>QR Code Universel</h3>
+                        <p style="color:var(--text-muted); margin-top:0.5rem">Compatible avec 100% des smartphones
+                            (iPhone & Android).</p>
+                    </div>
+                </div>
+
+                <!-- Speed Feature -->
+                <div class="glass benefit-card reveal" style="transition-delay: 0.2s;">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                    </svg>
+                    <div>
+                        <h3>Ultra Rapide</h3>
+                        <p style="color:var(--text-muted); margin-top:0.5rem">Chargement instantané. Pas de
+                            téléchargement d'app nécessaire.</p>
+                    </div>
+                </div>
+
+                <!-- Design Feature -->
+                <div class="glass benefit-card reveal" style="transition-delay: 0.3s;">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z">
+                        </path>
+                    </svg>
+                    <div>
+                        <h3>Design Premium</h3>
+                        <p style="color:var(--text-muted); margin-top:0.5rem">Une interface sombre et élégante qui
+                            sublime votre établissement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Tarifs Simples</h2>
+                <p>Paiement unique. Accès à vie.</p>
+            </div>
+            <div class="pricing-container">
+                <!-- Standard -->
+                <div class="glass pricing-card reveal">
+                    <h3>Pack Start</h3>
+                    <div class="price">499<span>DH</span></div>
+                    <ul class="features-list">
+                        <li>Menu QR Digital</li>
+                        <li>Design Standard Dark</li>
+                        <li>Jusqu'à 50 produits</li>
+                        <li>Formation incluse</li>
+                    </ul>
+                    <a href="mailto:contact@lqr.ma" class="btn btn-primary"
+                        style="background:transparent; border:1px solid rgba(255,255,255,0.2);">Commander</a>
+                </div>
+
+                <!-- Pro -->
+                <div class="glass pricing-card featured reveal" style="transition-delay: 0.1s;">
+                    <div
+                        style="position:absolute; top:-1px; right:20px; background:var(--accent); padding:5px 15px; border-radius:0 0 10px 10px; font-size:0.8rem; font-weight:bold;">
+                        RECOMMANDÉ</div>
+                    <h3>Pack Pro</h3>
+                    <div class="price">899<span>DH</span></div>
+                    <ul class="features-list">
+                        <li>Menu QR & Puce NFC</li>
+                        <li>Design Premium Sur Mesure</li>
+                        <li>Produits illimités</li>
+                        <li>Photos HD</li>
+                        <li>Support Prioritaire</li>
+                    </ul>
+                    <a href="mailto:contact@lqr.ma" class="btn btn-primary">Commander</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section>
+        <div class="container" style="text-align: center;">
+            <div class="glass reveal" style="padding: 4rem 2rem; max-width: 800px; margin: 0 auto;">
+                <h2 style="font-size: 2rem; margin-bottom: 1rem;">Prêt à moderniser votre établissement ?</h2>
+                <p style="color: var(--text-muted); margin-bottom: 2rem;">Rejoignez l'avenir de la restauration au
+                    Maroc.</p>
+                <a href="mailto:contact@lqr.ma" class="btn btn-primary">Nous Contacter</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Lqr.ma. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Performance-focused smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Simple Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Apply animations to reveal elements
+        const revealElements = document.querySelectorAll('.reveal');
+
+        // Initial check
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Optional: Stop observing once revealed for performance
+                    // revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+    </script>
+</body>
+
+</html>
