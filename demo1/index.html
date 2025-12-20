@@ -1,343 +1,502 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>La Table - Menu Premium</title>
     <meta name="description" content="Expérience Gastronomique Digitale">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#ffffff">
     <style>
-        body {
-            font-family: 'DM Sans', sans-serif;
+        /* CSS Reset & Variables */
+        :root {
+            --primary: #2563eb;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --bg-body: #f9fafb;
+            --bg-card: #ffffff;
+            --border: #e5e7eb;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --spacing-container: 1rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             -webkit-tap-highlight-color: transparent;
         }
 
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
+        html {
+            scroll-behavior: smooth;
         }
 
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 5rem;
         }
 
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+        /* Utilities */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-container);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            text-align: center;
+            margin-top: 2rem;
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 2.5rem 0 1rem;
+            display: flex;
+            align-items: center;
+            color: var(--text-main);
+        }
+
+        h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+            margin-left: 1rem;
+        }
+
+        /* Sticky Nav & Search */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(249, 250, 251, 0.95);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding-bottom: 0.5rem;
+        }
+
+        .search-wrapper {
+            padding: 0.75rem var(--spacing-container);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            background-color: #fff;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 10px center;
+            background-size: 1.25rem;
+            appearance: none;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .nav-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 0.5rem var(--spacing-container);
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .nav-wrapper::-webkit-scrollbar {
+            display: none;
+            /* Chrome/Safari */
+        }
+
+        .nav-inner {
+            display: inline-flex;
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav-link.active {
+            color: var(--text-main);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Menu Items */
+        .menu-section {
+            scroll-margin-top: 140px;
+        }
+
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .menu-item {
+            display: flex;
+            gap: 1rem;
+            background: var(--bg-card);
+            padding: 0;
+            border-radius: 0;
+        }
+
+        .item-content {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .item-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text-main);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .item-desc {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .item-price {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1rem;
         }
 
         .item-image {
-            aspect-ratio: 1/1;
+            width: 96px;
+            height: 96px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #e5e7eb;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
+            display: block;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            line-height: 1;
+        }
+
+        .badge-green {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge-orange {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .badge-amber {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #9ca3af;
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
         }
     </style>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
 </head>
 
-<body class="bg-gray-50 text-gray-900 pb-20 antialiased">
+<body>
 
-    <!-- Header -->
-    <header class="pt-8 pb-4 px-4 bg-white">
-        <div class="max-w-md mx-auto text-center">
-            <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 mb-1">LA TABLE</h1>
-            <p class="text-gray-500 text-sm font-medium">Saisonnier • Bio • Frais</p>
-        </div>
+    <header class="container">
+        <h1>LA TABLE</h1>
+        <p class="subtitle">Saisonnier • Bio • Frais</p>
     </header>
 
-    <!-- Sticky Search & Nav Container -->
-    <div class="sticky top-0 z-40 bg-gray-50/95 backdrop-blur-sm">
-        <!-- Search -->
-        <div class="max-w-md mx-auto px-4 py-3">
-            <div class="relative">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </div>
-                <input type="text" id="searchInput"
-                    class="block w-full pl-10 pr-3 py-3 border-none rounded-xl bg-white shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-brand-500 placeholder-gray-400 text-sm transition"
-                    placeholder="Rechercher un plat...">
-            </div>
+    <div class="sticky-header">
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" class="search-input" placeholder="Rechercher un plat...">
         </div>
-
-        <!-- Categories Nav -->
-        <nav class="glass-nav w-full overflow-x-auto hide-scrollbar">
-            <div class="max-w-md mx-auto px-4 flex space-x-6 py-3 min-w-max" id="navContainer">
-                <!-- Links injected via JS or static -->
-                <a href="#starters"
-                    class="nav-link text-gray-500 font-bold text-sm whitespace-nowrap pb-1 border-b-2 border-transparent hover:text-gray-900 transition-colors active-link">Entrées</a>
-                <a href="#salads"
-                    class="nav-link text-gray-500 font-bold text-sm whitespace-nowrap pb-1 border-b-2 border-transparent hover:text-gray-900 transition-colors">Salades</a>
-                <a href="#mains"
-                    class="nav-link text-gray-500 font-bold text-sm whitespace-nowrap pb-1 border-b-2 border-transparent hover:text-gray-900 transition-colors">Plats</a>
-                <a href="#pizza"
-                    class="nav-link text-gray-500 font-bold text-sm whitespace-nowrap pb-1 border-b-2 border-transparent hover:text-gray-900 transition-colors">Pizzas</a>
-                <a href="#cocktails"
-                    class="nav-link text-gray-500 font-bold text-sm whitespace-nowrap pb-1 border-b-2 border-transparent hover:text-gray-900 transition-colors">Cocktails</a>
+        <nav class="nav-wrapper">
+            <div class="nav-inner" id="navInner">
+                <a href="#starters" class="nav-link active">Entrées</a>
+                <a href="#salads" class="nav-link">Salades</a>
+                <a href="#mains" class="nav-link">Plats</a>
+                <a href="#pizza" class="nav-link">Pizzas</a>
+                <a href="#cocktails" class="nav-link">Cocktails</a>
             </div>
         </nav>
     </div>
 
-    <!-- Main Content -->
-    <main class="max-w-md mx-auto px-4 pt-6 space-y-8" id="menuContainer">
+    <main class="container" id="menuContainer">
 
-        <!-- Empty State -->
-        <div id="noResults" class="hidden text-center py-10">
-            <p class="text-gray-500">Aucun résultat trouvé.</p>
+        <div id="noResults" class="hidden" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+            Aucun résultat trouvé.
         </div>
 
         <!-- Starters -->
-        <section id="starters" class="scroll-mt-36 menu-section">
-            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                Entrées
-                <span class="ml-2 h-px bg-gray-200 flex-grow"></span>
-            </h2>
-            <div class="space-y-6">
-                <!-- Item 1 -->
-                <div class="group flex gap-4 menu-item" data-search="burrata tomate basilic vegetarien">
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 mb-1">
-                            <h3 class="text-base font-bold text-gray-900 truncate">Burrata & Tomates Anciennes</h3>
-                            <span
-                                class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-700 uppercase tracking-wide">
-                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path
-                                        d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
-                                </svg>
-                                Végé
-                            </span>
+        <section id="starters" class="menu-section">
+            <h2>Entrées</h2>
+            <div class="menu-list">
+                <article class="menu-item" data-search="burrata tomate basilic vegetarien">
+                    <div class="item-content">
+                        <div class="item-header">
+                            <h3 class="item-title">Burrata & Tomates</h3>
+                            <span class="badge badge-green">Végé</span>
                         </div>
-                        <p class="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-2">Burrata crémeuse, tomates
-                            héritage, huile de basilic, glaçage balsamique.</p>
-                        <span class="text-brand-600 font-bold text-base">160 DH</span>
+                        <p class="item-desc">Burrata crémeuse, tomates héritage, huile de basilic, glaçage balsamique.
+                        </p>
+                        <span class="item-price">160 DH</span>
                     </div>
-                    <div class="w-24 h-24 flex-shrink-0">
-                        <img src="assets/img1.webp" alt="Burrata"
-                            class="w-full h-full object-cover rounded-xl shadow-sm">
+                    <div class="item-image">
+                        <img src="assets/img1.webp" alt="Burrata" loading="lazy">
                     </div>
-                </div>
+                </article>
 
-                <!-- Item 2 -->
-                <div class="group flex gap-4 menu-item" data-search="calamars frit piquant">
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 mb-1">
-                            <h3 class="text-base font-bold text-gray-900 truncate">Calamars Croustillants</h3>
-                            <span
-                                class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 text-orange-700 uppercase tracking-wide">
-                                <svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
-                                </svg>
-                                Épicé
-                            </span>
+                <article class="menu-item" data-search="calamars frit piquant">
+                    <div class="item-content">
+                        <div class="item-header">
+                            <h3 class="item-title">Calamars Croustillants</h3>
+                            <span class="badge badge-orange">Épicé</span>
                         </div>
-                        <p class="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-2">Légèrement panés, aïoli au
-                            citron confit, persil.</p>
-                        <span class="text-brand-600 font-bold text-base">140 DH</span>
+                        <p class="item-desc">Légèrement panés, aïoli au citron confit, persil.</p>
+                        <span class="item-price">140 DH</span>
                     </div>
-                    <div class="w-24 h-24 flex-shrink-0">
-                        <img src="assets/img2.webp" alt="Calamars"
-                            class="w-full h-full object-cover rounded-xl shadow-sm">
+                    <div class="item-image">
+                        <img src="assets/img2.webp" alt="Calamars" loading="lazy">
                     </div>
-                </div>
+                </article>
             </div>
         </section>
 
         <!-- Salads -->
-        <section id="salads" class="scroll-mt-36 menu-section">
-            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                Salades
-                <span class="ml-2 h-px bg-gray-200 flex-grow"></span>
-            </h2>
-            <div class="space-y-6">
-                <div class="group flex gap-4 menu-item" data-search="cesar chou kale">
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-base font-bold text-gray-900 mb-1">César Kale</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-2">Jeunes pousses de kale,
-                            croûtons au parmesan, sauce anchois.</p>
-                        <span class="text-brand-600 font-bold text-base">140 DH</span>
+        <section id="salads" class="menu-section">
+            <h2>Salades</h2>
+            <div class="menu-list">
+                <article class="menu-item" data-search="cesar chou kale">
+                    <div class="item-content">
+                        <div class="item-header">
+                            <h3 class="item-title">César Kale</h3>
+                        </div>
+                        <p class="item-desc">Jeunes pousses de kale, croûtons au parmesan, sauce anchois.</p>
+                        <span class="item-price">140 DH</span>
                     </div>
-                    <div class="w-24 h-24 flex-shrink-0">
-                        <img src="assets/img3.webp" alt="Salade César"
-                            class="w-full h-full object-cover rounded-xl shadow-sm">
+                    <div class="item-image">
+                        <img src="assets/img3.webp" alt="Salade César" loading="lazy">
                     </div>
-                </div>
+                </article>
             </div>
         </section>
 
         <!-- Mains -->
-        <section id="mains" class="scroll-mt-36 menu-section">
-            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                Plats Principaux
-                <span class="ml-2 h-px bg-gray-200 flex-grow"></span>
-            </h2>
-            <div class="space-y-6">
-                <div class="group flex gap-4 menu-item" data-search="burger wagyu boeuf">
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-base font-bold text-gray-900 mb-1">Le Burger Signature</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-2">Mélange Wagyu, cheddar
-                            affiné, oignons caramélisés, sauce maison.</p>
-                        <span class="text-brand-600 font-bold text-base">220 DH</span>
-                    </div>
-                    <div class="w-24 h-24 flex-shrink-0">
-                        <img src="assets/img4.webp" alt="Burger"
-                            class="w-full h-full object-cover rounded-xl shadow-sm">
-                    </div>
-                </div>
-
-                <div class="group flex gap-4 menu-item" data-search="steak frites entrecote">
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 mb-1">
-                            <h3 class="text-base font-bold text-gray-900 truncate">Steak Frites</h3>
-                            <span
-                                class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 uppercase tracking-wide">
-                                Populaire
-                            </span>
+        <section id="mains" class="menu-section">
+            <h2>Plats Principaux</h2>
+            <div class="menu-list">
+                <article class="menu-item" data-search="burger wagyu boeuf">
+                    <div class="item-content">
+                        <div class="item-header">
+                            <h3 class="item-title">Le Burger Signature</h3>
                         </div>
-                        <p class="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-2">Entrecôte 300g, sauce au
-                            poivre, frites à la truffe.</p>
-                        <span class="text-brand-600 font-bold text-base">320 DH</span>
+                        <p class="item-desc">Mélange Wagyu, cheddar affiné, oignons caramélisés, sauce maison.</p>
+                        <span class="item-price">220 DH</span>
                     </div>
-                    <div class="w-24 h-24 flex-shrink-0">
-                        <img src="assets/img5.webp" alt="Steak" class="w-full h-full object-cover rounded-xl shadow-sm">
+                    <div class="item-image">
+                        <img src="assets/img4.webp" alt="Burger" loading="lazy">
                     </div>
-                </div>
+                </article>
+
+                <article class="menu-item" data-search="steak frites entrecote">
+                    <div class="item-content">
+                        <div class="item-header">
+                            <h3 class="item-title">Steak Frites</h3>
+                            <span class="badge badge-amber">Populaire</span>
+                        </div>
+                        <p class="item-desc">Entrecôte 300g, sauce au poivre, frites à la truffe.</p>
+                        <span class="item-price">320 DH</span>
+                    </div>
+                    <div class="item-image">
+                        <img src="assets/img5.webp" alt="Steak" loading="lazy">
+                    </div>
+                </article>
             </div>
         </section>
 
-        <!-- Pizza -->
-        <section id="pizza" class="scroll-mt-36 menu-section">
-            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                Pizzas
-                <span class="ml-2 h-px bg-gray-200 flex-grow"></span>
-            </h2>
-            <div class="space-y-6">
-                <div class="group flex gap-4 menu-item" data-search="margherita pizza fromage">
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 mb-1">
-                            <h3 class="text-base font-bold text-gray-900 truncate">Margherita</h3>
-                            <span
-                                class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-700 uppercase tracking-wide">
-                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path
-                                        d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
-                                </svg>
-                                Végé
-                            </span>
+        <!-- Pizzas -->
+        <section id="pizza" class="menu-section">
+            <h2>Pizzas</h2>
+            <div class="menu-list">
+                <article class="menu-item" data-search="margherita pizza fromage">
+                    <div class="item-content">
+                        <div class="item-header">
+                            <h3 class="item-title">Margherita</h3>
+                            <span class="badge badge-green">Végé</span>
                         </div>
-                        <p class="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-2">Tomates San Marzano, fior di
-                            latte, basilic frais.</p>
-                        <span class="text-brand-600 font-bold text-base">120 DH</span>
+                        <p class="item-desc">Tomates San Marzano, fior di latte, basilic frais.</p>
+                        <span class="item-price">120 DH</span>
                     </div>
-                    <div class="w-24 h-24 flex-shrink-0">
-                        <img src="assets/img6.webp" alt="Pizza" class="w-full h-full object-cover rounded-xl shadow-sm">
+                    <div class="item-image">
+                        <img src="assets/img6.webp" alt="Pizza" loading="lazy">
                     </div>
-                </div>
+                </article>
             </div>
         </section>
 
         <!-- Cocktails -->
-        <section id="cocktails" class="scroll-mt-36 menu-section">
-            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                Cocktails
-                <span class="ml-2 h-px bg-gray-200 flex-grow"></span>
-            </h2>
-            <div class="space-y-6">
-                <div class="group flex gap-4 menu-item" data-search="negroni gin">
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-base font-bold text-gray-900 mb-1">Negroni</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-2">Gin, Campari, Vermouth Rouge,
-                            Zeste d'Orange.</p>
-                        <span class="text-brand-600 font-bold text-base">140 DH</span>
+        <section id="cocktails" class="menu-section">
+            <h2>Cocktails</h2>
+            <div class="menu-list">
+                <article class="menu-item" data-search="negroni gin">
+                    <div class="item-content">
+                        <div class="item-header">
+                            <h3 class="item-title">Negroni</h3>
+                        </div>
+                        <p class="item-desc">Gin, Campari, Vermouth Rouge, Zeste d'Orange.</p>
+                        <span class="item-price">140 DH</span>
                     </div>
-                    <div class="w-24 h-24 flex-shrink-0">
-                        <img src="assets/img7.webp" alt="Negroni"
-                            class="w-full h-full object-cover rounded-xl shadow-sm">
+                    <div class="item-image">
+                        <img src="assets/img7.webp" alt="Negroni" loading="lazy">
                     </div>
-                </div>
+                </article>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="mt-12 py-8 text-center border-t border-gray-200">
-        <p class="text-xs text-gray-400">Prix TTC</p>
-        <p class="text-xs text-gray-400 mt-1">&copy; 2024 La Table</p>
+    <footer>
+        <p>Prix TTC</p>
+        <p style="margin-top:0.25rem">&copy; 2024 La Table</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const searchInput = document.getElementById('searchInput');
             const menuSections = document.querySelectorAll('.menu-section');
-            const items = document.querySelectorAll('.menu-item');
-            const noResults = document.getElementById('noResults');
             const navLinks = document.querySelectorAll('.nav-link');
+            const noResults = document.getElementById('noResults');
 
-            // Search
+            // Search Function
             searchInput.addEventListener('input', (e) => {
-                const term = e.target.value.toLowerCase();
+                const term = e.target.value.toLowerCase().trim();
                 let hasResults = false;
 
                 menuSections.forEach(section => {
                     let sectionHasVisible = false;
-                    const sectionItems = section.querySelectorAll('.menu-item');
+                    const items = section.querySelectorAll('.menu-item');
 
-                    sectionItems.forEach(item => {
-                        const content = item.dataset.search + ' ' + item.innerText.toLowerCase();
-                        if (content.includes(term)) {
-                            item.style.display = 'flex';
+                    items.forEach(item => {
+                        const content = item.getAttribute('data-search') + ' ' +
+                            item.querySelector('.item-title').innerText.toLowerCase();
+
+                        if (term === '' || content.includes(term)) {
+                            item.classList.remove('hidden');
                             sectionHasVisible = true;
-                            hasResults = true;
+                            if (term !== '') hasResults = true;
                         } else {
-                            item.style.display = 'none';
+                            item.classList.add('hidden');
                         }
                     });
 
-                    section.style.display = sectionHasVisible ? 'block' : 'none';
+                    if (sectionHasVisible) {
+                        section.classList.remove('hidden');
+                    } else {
+                        section.classList.add('hidden');
+                    }
                 });
 
-                noResults.classList.toggle('hidden', hasResults);
+                if (term !== '' && !hasResults) {
+                    noResults.classList.remove('hidden');
+                } else {
+                    noResults.classList.add('hidden');
+                }
             });
 
             // Scroll Spy
             window.addEventListener('scroll', () => {
                 let current = '';
                 menuSections.forEach(section => {
-                    if (section.style.display === 'none') return;
+                    if (section.classList.contains('hidden')) return;
+
                     const sectionTop = section.offsetTop;
-                    if (scrollY >= sectionTop - 180) {
+                    // 150px offset for header
+                    if (window.scrollY >= (sectionTop - 150)) {
                         current = section.getAttribute('id');
                     }
                 });
 
                 navLinks.forEach(link => {
-                    link.classList.remove('text-gray-900', 'border-brand-600');
-                    link.classList.add('text-gray-500', 'border-transparent');
+                    link.classList.remove('active');
                     if (link.getAttribute('href') === '#' + current) {
-                        link.classList.remove('text-gray-500', 'border-transparent');
-                        link.classList.add('text-gray-900', 'border-brand-600');
-                        // Horizontal scroll to active
+                        link.classList.add('active');
+                        // Auto-scroll nav
                         link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                     }
                 });
