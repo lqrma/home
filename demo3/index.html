@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>The Table - Menu</title>
+    <meta name="description" content="Fast, simple restaurant menu">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --accent-color: #000000;
+            --secondary-text: #666666;
+            --border-color: #f0f0f0;
+            --highlight-bg: #f8f9fa;
+            --spacing-unit: 1rem;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --nav-height: 60px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            font-size: 16px;
+            padding-bottom: 5rem;
+        }
+
+        /* Utility */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-unit);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.05rem;
+            margin: 1.5rem 0 0.25rem;
+            text-align: center;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--text-color);
+            position: sticky;
+            top: 110px;
+            /* Below Search + Nav */
+            background: var(--bg-color);
+            z-index: 80;
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-color);
+            padding: 0.5rem 0;
+            margin: 0 -1rem;
+            /* Full width */
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 16px;
+            /* Prevents iOS zoom */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            color: var(--text-color);
+            transition: all 0.2s;
+            -webkit-appearance: none;
+        }
+
+        .search-input:focus {
+            outline: none;
+            background: #fff;
+            border-color: var(--text-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Navigation */
+        .nav-scroller {
+            position: sticky;
+            top: 60px;
+            /* Below Search */
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 90;
+            border-bottom: 1px solid var(--border-color);
+            margin: 0 -1rem;
+            padding: 0 1rem;
+            white-space: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .nav-scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-list {
+            display: inline-flex;
+            gap: 1.5rem;
+            padding: 1rem 0.5rem;
+            list-style: none;
+        }
+
+        .nav-item a {
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--secondary-text);
+            text-decoration: none;
+            padding-bottom: 4px;
+            transition: color 0.2s;
+        }
+
+        .nav-item a.active {
+            color: var(--text-color);
+            border-bottom: 2px solid var(--text-color);
+        }
+
+        /* Menu Items */
+        .menu-section {
+            scroll-margin-top: 160px;
+            /* Offset for sticky headers */
+        }
+
+        .menu-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed var(--border-color);
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-color);
+        }
+
+        .item-price {
+            font-weight: 600;
+            font-size: 1.1rem;
+            white-space: nowrap;
+            margin-left: 1rem;
+        }
+
+        .item-desc {
+            color: var(--secondary-text);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* Badges */
+        .badge {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-right: 6px;
+            font-weight: 700;
+            text-transform: uppercase;
+            vertical-align: middle;
+        }
+
+        .v {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        /* Vegetarian */
+        .sp {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        /* Spicy */
+        .gf {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        /* Gluten Free */
+
+        /* Back to Top */
+        #backToTop {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--text-color);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 200;
+        }
+
+        #backToTop.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        footer {
+            margin-top: 4rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--secondary-text);
+            padding: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Empty State */
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--secondary-text);
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>THE TABLE</h1>
+            <p class="subtitle">Seasonal &bull; Organic &bull; Fresh</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search menu...">
+        </div>
+
+        <nav class="nav-scroller" id="navbar">
+            <ul class="nav-list" id="navList">
+                <!-- Populated via JS for redundancy? No, HTML first for SEO/Speed, but let's keep it simple HTML -->
+                <li class="nav-item"><a href="#starters" class="active">Starters</a></li>
+                <li class="nav-item"><a href="#salads">Salads</a></li>
+                <li class="nav-item"><a href="#mains">Mains</a></li>
+                <li class="nav-item"><a href="#pizza">Pizza</a></li>
+                <li class="nav-item"><a href="#pasta">Pasta</a></li>
+                <li class="nav-item"><a href="#sides">Sides</a></li>
+                <li class="nav-item"><a href="#cocktails">Cocktails</a></li>
+                <li class="nav-item"><a href="#wine">Wine</a></li>
+                <li class="nav-item"><a href="#softs">Soft Drinks</a></li>
+                <li class="nav-item"><a href="#dessert">Dessert</a></li>
+            </ul>
+        </nav>
+
+        <main id="menuContainer">
+            <div id="noResults" class="no-results">No items found matching your search.</div>
+
+            <!-- Starters -->
+            <section id="starters" class="menu-section">
+                <h2>Starters</h2>
+                <div class="menu-item-list">
+                    <article class="menu-item" data-search="burrata tomato basil">
+                        <div class="item-header">
+                            <span class="item-name"><span class="badge v">V</span>Burrata &amp; Heirloom</span>
+                            <span class="item-price">$16</span>
+                        </div>
+                        <p class="item-desc">Creamy burrata, heirloom tomatoes, basil oil, balsamic glaze.</p>
+                    </article>
+                    <article class="menu-item" data-search="calamari fried lemon">
+                        <div class="item-header">
+                            <span class="item-name">Crispy Calamari</span>
+                            <span class="item-price">$14</span>
+                        </div>
+                        <p class="item-desc">Lightly dusted, preserved lemon aioli, parsley.</p>
+                    </article>
+                    <article class="menu-item" data-search="wings spicy chicken">
+                        <div class="item-header">
+                            <span class="item-name"><span class="badge sp">SP</span>Hot Honey Wings</span>
+                            <span class="item-price">$12</span>
+                        </div>
+                        <p class="item-desc">Free-range chicken, calabrian chili honey, ranch dip.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Salads -->
+            <section id="salads" class="menu-section">
+                <h2>Salads</h2>
+                <div class="menu-item-list">
+                    <article class="menu-item" data-search="caesar kale">
+                        <div class="item-header">
+                            <span class="item-name">Kale Caesar</span>
+                            <span class="item-price">$14</span>
+                        </div>
+                        <p class="item-desc">Baby kale, parmesan croutons, anchovy dressing.</p>
+                    </article>
+                    <article class="menu-item" data-search="niçoise tuna">
+                        <div class="item-header">
+                            <span class="item-name"><span class="badge gf">GF</span>Seared Tuna Niçoise</span>
+                            <span class="item-price">$19</span>
+                        </div>
+                        <p class="item-desc">Ahi tuna, green beans, potato, olive, egg, vinaigrette.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Mains -->
+            <section id="mains" class="menu-section">
+                <h2>Mains</h2>
+                <div class="menu-item-list">
+                    <article class="menu-item" data-search="burger wagyu beef">
+                        <div class="item-header">
+                            <span class="item-name">The Burger</span>
+                            <span class="item-price">$22</span>
+                        </div>
+                        <p class="item-desc">Wagyu blend, aged cheddar, caramelized onions, house sauce, fries.</p>
+                    </article>
+                    <article class="menu-item" data-search="salmon fish">
+                        <div class="item-header">
+                            <span class="item-name"><span class="badge gf">GF</span>Pan Seared Salmon</span>
+                            <span class="item-price">$26</span>
+                        </div>
+                        <p class="item-desc">Sustainable salmon, quinoa tabbouleh, dill yogurt.</p>
+                    </article>
+                    <article class="menu-item" data-search="steak frites beef ribeye">
+                        <div class="item-header">
+                            <span class="item-name">Steak Frites</span>
+                            <span class="item-price">$32</span>
+                        </div>
+                        <p class="item-desc">10oz Ribeye, peppercorn sauce, truffle fries.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Pizza -->
+            <section id="pizza" class="menu-section">
+                <h2>Pizza</h2>
+                <div class="menu-item-list">
+                    <article class="menu-item" data-search="margherita pizza cheese">
+                        <div class="item-header">
+                            <span class="item-name"><span class="badge v">V</span>Margherita</span>
+                            <span class="item-price">$16</span>
+                        </div>
+                        <p class="item-desc">San Marzano tomato, fior di latte, basil.</p>
+                    </article>
+                    <article class="menu-item" data-search="pepperoni pizza spicy">
+                        <div class="item-header">
+                            <span class="item-name">Double Pepperoni</span>
+                            <span class="item-price">$19</span>
+                        </div>
+                        <p class="item-desc">Ezzo pepperoni, hot honey, mozzarella.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Pasta -->
+            <section id="pasta" class="menu-section">
+                <h2>Pasta</h2>
+                <div class="menu-item-list">
+                    <article class="menu-item" data-search="carbonara pasta pork">
+                        <div class="item-header">
+                            <span class="item-name">Carbonara</span>
+                            <span class="item-price">$20</span>
+                        </div>
+                        <p class="item-desc">Guanciale, pecorino, egg yolk, black pepper.</p>
+                    </article>
+                    <article class="menu-item" data-search="truffle pasta risotto mushroom">
+                        <div class="item-header">
+                            <span class="item-name"><span class="badge v">V</span>Mushroom Risotto</span>
+                            <span class="item-price">$22</span>
+                        </div>
+                        <p class="item-desc">Wild mushrooms, truffle oil, parmesan.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Sides -->
+            <section id="sides" class="menu-section">
+                <h2>Sides</h2>
+                <div class="menu-item-list">
+                    <article class="menu-item" data-search="fries truffle">
+                        <div class="item-header">
+                            <span class="item-name">Truffle Fries</span>
+                            <span class="item-price">$8</span>
+                        </div>
+                        <p class="item-desc">Parmesan, parsley, truffle aioli.</p>
+                    </article>
+                    <article class="menu-item" data-search="broccolini veg">
+                        <div class="item-header">
+                            <span class="item-name">Charred Broccolini</span>
+                            <span class="item-price">$9</span>
+                        </div>
+                        <p class="item-desc">Garlic, chili, lemon.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Cocktails -->
+            <section id="cocktails" class="menu-section">
+                <h2>Cocktails</h2>
+                <div class="menu-item-list">
+                    <article class="menu-item" data-search="negroni gin">
+                        <div class="item-header">
+                            <span class="item-name">Negroni</span>
+                            <span class="item-price">$14</span>
+                        </div>
+                        <p class="item-desc">Gin, Campari, Sweet Vermouth.</p>
+                    </article>
+                    <article class="menu-item" data-search="margarita tequila">
+                        <div class="item-header">
+                            <span class="item-name">Spicy Margarita</span>
+                            <span class="item-price">$14</span>
+                        </div>
+                        <p class="item-desc">Blanco Tequila, jalapeño, lime, agave.</p>
+                    </article>
+                    <article class="menu-item" data-search="old fashioned whiskey">
+                        <div class="item-header">
+                            <span class="item-name">Old Fashioned</span>
+                            <span class="item-price">$15</span>
+                        </div>
+                        <p class="item-desc">Bourbon, bitters, orange peel.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Wine -->
+            <section id="wine" class="menu-section">
+                <h2>Wine</h2>
+                <div class="menu-item-list">
+                    <article class="menu-item" data-search="pinot noir red wine">
+                        <div class="item-header">
+                            <span class="item-name">Pinot Noir</span>
+                            <span class="item-price">$13 / $48</span>
+                        </div>
+                        <p class="item-desc">Willamette Valley, OR. 2021.</p>
+                    </article>
+                    <article class="menu-item" data-search="chardonnay white wine">
+                        <div class="item-header">
+                            <span class="item-name">Chardonnay</span>
+                            <span class="item-price">$12 / $44</span>
+                        </div>
+                        <p class="item-desc">Sonoma Coast, CA. 2022.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Soft Drinks -->
+            <section id="softs" class="menu-section">
+                <h2>Soft Drinks</h2>
+                <div class="menu-item-list">
+                    <article class="menu-item" data-search="coke soda">
+                        <div class="item-header">
+                            <span class="item-name">Coca Cola / Diet</span>
+                            <span class="item-price">$4</span>
+                        </div>
+                        <p class="item-desc">Glass bottle.</p>
+                    </article>
+                    <article class="menu-item" data-search="lemonade">
+                        <div class="item-header">
+                            <span class="item-name">House Lemonade</span>
+                            <span class="item-price">$5</span>
+                        </div>
+                        <p class="item-desc">Freshly squeezed.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Dessert -->
+            <section id="dessert" class="menu-section">
+                <h2>Dessert</h2>
+                <div class="menu-item-list">
+                    <article class="menu-item" data-search="chocolate cake">
+                        <div class="item-header">
+                            <span class="item-name">Dark Chocolate Pot</span>
+                            <span class="item-price">$9</span>
+                        </div>
+                        <p class="item-desc">Sea salt, olive oil, whipped cream.</p>
+                    </article>
+                    <article class="menu-item" data-search="tiramisu coffee">
+                        <div class="item-header">
+                            <span class="item-name">Classic Tiramisu</span>
+                            <span class="item-price">$10</span>
+                        </div>
+                        <p class="item-desc">Espresso soaked ladyfingers, mascarpone.</p>
+                    </article>
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+            <div id="backToTop">&uarr;</div>
+            <p>GF = Gluten Free &bull; V = Vegetarian &bull; SP = Spicy</p>
+            <p style="margin-top:0.5rem">Prices include tax.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput');
+            const menuSections = document.querySelectorAll('.menu-section');
+            const allItems = document.querySelectorAll('.menu-item');
+            const noResults = document.getElementById('noResults');
+            const backToTop = document.getElementById('backToTop');
+            const navLinks = document.querySelectorAll('.nav-item a');
+
+            // SEARCH FUNCTION
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase().trim();
+                let hasResults = false;
+
+                if (term === '') {
+                    // Reset
+                    menuSections.forEach(sec => sec.classList.remove('hidden'));
+                    allItems.forEach(item => item.classList.remove('hidden'));
+                    noResults.style.display = 'none';
+                    return;
+                }
+
+                menuSections.forEach(section => {
+                    let sectionHasVisibleItems = false;
+                    const items = section.querySelectorAll('.menu-item');
+
+                    items.forEach(item => {
+                        const searchText = item.getAttribute('data-search') + ' ' +
+                            item.querySelector('.item-name').innerText.toLowerCase() + ' ' +
+                            item.querySelector('.item-desc').innerText.toLowerCase();
+
+                        if (searchText.includes(term)) {
+                            item.classList.remove('hidden');
+                            sectionHasVisibleItems = true;
+                            hasResults = true;
+                        } else {
+                            item.classList.add('hidden');
+                        }
+                    });
+
+                    if (sectionHasVisibleItems) {
+                        section.classList.remove('hidden');
+                    } else {
+                        section.classList.add('hidden');
+                    }
+                });
+
+                noResults.style.display = hasResults ? 'none' : 'block';
+            });
+
+            // SCROLL SPY + BACK TO TOP
+            window.addEventListener('scroll', () => {
+                // Back to top visibility
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('show');
+                } else {
+                    backToTop.classList.remove('show');
+                }
+
+                // Navbar Active State
+                // Debounce slightly for performance if needed, but modern phones handle this fine.
+                let current = '';
+
+                menuSections.forEach(section => {
+                    if (section.classList.contains('hidden')) return; // Skip hidden sections
+
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    // Improved offset logic
+                    if (window.scrollY >= (sectionTop - 180)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (current && link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                        // Auto scroll navbar to keep active item in view
+                        link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    }
+                });
+            });
+
+            // Back to Top Click
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+
+</html>
