@@ -7,6 +7,7 @@
     <title>Lqr.ma | Menus Digitaux QR & NFC Premium</title>
     <meta name="description"
         content="Menus numériques QR code et NFC pour restaurants et cafés au Maroc. Design Glassmorphism. Sans abonnement.">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <style>
         /* 
            PERFORMANCE OPTIMIZATION:
@@ -38,12 +39,17 @@
             padding: 0;
         }
 
+        html,
+        body {
+            overflow-x: hidden;
+            max-width: 100vw;
+        }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             line-height: 1.6;
-            overflow-x: hidden;
             background-image:
                 radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
@@ -567,7 +573,9 @@
     <header>
         <div class="container">
             <nav>
-                <a href="#" class="logo">Lqr<span>.ma</span></a>
+                <a href="#" class="logo">
+                    <img src="logo.webp" alt="Lqr.ma" height="40" width="auto">
+                </a>
                 <a href="#pricing" class="btn btn-primary"
                     style="padding: 0.8rem 1.5rem; font-size: 0.9rem;">Commencer</a>
             </nav>
